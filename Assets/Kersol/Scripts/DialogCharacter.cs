@@ -1,0 +1,68 @@
+using UnityEngine;
+using TMPro;
+using System.Collections;
+using System;
+
+public class DialogCharacter : MonoBehaviour
+{
+    public string name;
+    [SerializeField] private RectTransform dialogPanel;
+    [SerializeField] private TMP_Text dialogText;
+    private float animTimeSec = 0.7f;
+    private float letterDelay = 0.1f, bitDelay = 0.04f;
+
+    public void SayPhrase(string phrase, Action close) {
+        StartCoroutine(SayPhraseIterator(phrase));
+        close += () => StartCoroutine(closePanel());
+    }
+
+    private IEnumerator openPanel()
+    {
+        float timer = 0;
+        while (timer < animTimeSec)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+            
+            dialogPanel.localScale = Mathf.Lerp(0, 1, timer) * Vector2.one;
+        }
+    }
+    private IEnumerator closePanel()
+    {
+        float timer = 0;
+        while (timer < animTimeSec)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+            
+            dialogPanel.localScale = Mathf.Lerp(0, 1, timer) * Vector2.one;
+        }
+    }
+    private IEnumerator SayPhraseIterator(string phrase)
+    {
+        
+
+        // clear
+        dialogText.text = string.Empty;
+
+        // panel animation
+        yield return StartCoroutine(openPanel());
+
+        // adding letters
+        foreach (var letter in phrase)
+        {
+            yield return new WaitForSeconds (bitDelay);
+            if (letter != ' ') dialogText.text += UnityEngine.Random.Range(0,2).ToString();
+        }
+
+        // changing on normal letters
+        var chars = dialogText.text.ToCharArray();
+        for (int i = 0; i < phrase.Length; i ++)
+        {
+            yield return new WaitForSeconds (letterDelay);
+            chars[i] = phrase[i];
+            chars[i+1 % phrase.Length] = '/';
+            dialogText.text = new string(chars);
+        }
+    }
+}
