@@ -107,3 +107,9 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 /ProjectSettings
 /ProjectSettings
+Assets/Settings/PC_RPAsset.asset
+Packages/manifest.json
+Packages/packages-lock.json
+ProjectSettings/QualitySettings.asset
+ProjectSettings/ShaderGraphSettings.asset
+ProjectSettings/URPProjectSettings.asset
