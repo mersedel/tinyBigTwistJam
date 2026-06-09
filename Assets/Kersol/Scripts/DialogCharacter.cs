@@ -9,11 +9,11 @@ public class DialogCharacter : MonoBehaviour
     [SerializeField] private RectTransform dialogPanel;
     [SerializeField] private TMP_Text dialogText;
     private float animTimeSec = 0.7f;
-    private float letterDelay = 0.1f, bitDelay = 0.04f;
+    private float letterDelay = 0.05f, bitDelay = 0.02f;
 
-    public void SayPhrase(string phrase, Action close) {
+    public void SayPhrase(string phrase, ref Action close) {
         StartCoroutine(SayPhraseIterator(phrase));
-        close += () => StartCoroutine(closePanel());
+        close = () => closePanel();
     }
 
     private IEnumerator openPanel()
@@ -53,6 +53,7 @@ public class DialogCharacter : MonoBehaviour
         {
             yield return new WaitForSeconds (bitDelay);
             if (letter != ' ') dialogText.text += UnityEngine.Random.Range(0,2).ToString();
+            else dialogText.text += '-';
         }
 
         // changing on normal letters
@@ -61,7 +62,7 @@ public class DialogCharacter : MonoBehaviour
         {
             yield return new WaitForSeconds (letterDelay);
             chars[i] = phrase[i];
-            chars[i+1 % phrase.Length] = '/';
+            if (i < phrase.Length - 2) chars[i + 1] = '/';
             dialogText.text = new string(chars);
         }
     }

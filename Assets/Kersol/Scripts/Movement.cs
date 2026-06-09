@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    static public Movement main;
     private Rigidbody2D rb;
     [SerializeField] private float walkSpeed = 1, jumpForce = 10;
     [SerializeField] private Transform groundPoint;
@@ -9,6 +10,7 @@ public class Movement : MonoBehaviour
     private bool grounded;
     void Start()
     {
+        main = this;
         rb = GetComponent<Rigidbody2D>();
     }
 

@@ -23,16 +23,22 @@ public class Dialog
     public void Execute(MonoBehaviour mono) => mono.StartCoroutine(DialogCoroutine());
     IEnumerator DialogCoroutine()
     {
+        // FIXME fix duality of one who talks
+
+        Movement.main.enabled = false;
+
         foreach (var line in scenario)
         {
             var character = chars.First(def => def.character == line.character).definition;
             CameraFollow.main.target = character.gameObject.transform;
 
-            character.SayPhrase(line.phrase, close);
+            character.SayPhrase(line.phrase, ref close);
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-            close.Invoke();
+            close();
             close = null;
         }
+
+        Movement.main.enabled = true;
     }
 }
 [System.Serializable]
