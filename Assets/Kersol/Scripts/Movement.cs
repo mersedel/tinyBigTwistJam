@@ -55,8 +55,10 @@ public class Movement : MonoBehaviour
     {
         if (Mathf.Abs(horInput) > 0.01)
         {
-            float angle = horInput > 0 ? 0f : 180f;
-            PlayerManager.instance.body.transform.localEulerAngles = new Vector3(0, angle, 0);
+            // float angle = horInput > 0 ? 0f : 180f;
+            // PlayerManager.instance.body.transform.localEulerAngles = new Vector3(0, angle, 0);
+
+            PlayerManager.instance.bodySprite.flipX = horInput < 0;
         }
     }
 }
