@@ -33,11 +33,18 @@ public class Dialog
             CameraFollow.main.target = character.gameObject.transform;
 
             character.SayPhrase(line.phrase, ref close);
+            // yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
+            // close();
+            // Чекаємо поки E відпущена (на випадок якщо вже затиснута)
+            yield return new WaitUntil(() => !Input.GetKey(KeyCode.E));
+            // Тепер чекаємо справжнього натискання
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-            close();
+        
+            close?.Invoke();
             close = null;
         }
 
+        CameraFollow.main.target = Movement.main.transform;
         Movement.main.enabled = true;
     }
 }

@@ -13,7 +13,7 @@ public class DialogCharacter : MonoBehaviour
 
     public void SayPhrase(string phrase, ref Action close) {
         StartCoroutine(SayPhraseIterator(phrase));
-        close = () => closePanel();
+        close = () => StartCoroutine(closePanel());
     }
 
     private IEnumerator openPanel()
@@ -24,7 +24,7 @@ public class DialogCharacter : MonoBehaviour
             yield return null;
             timer += Time.deltaTime;
             
-            dialogPanel.localScale = Mathf.Lerp(0, 1, timer) * Vector2.one;
+            dialogPanel.localScale = Mathf.Lerp(0, 1, timer / animTimeSec) * Vector2.one;
         }
     }
     private IEnumerator closePanel()
@@ -35,7 +35,7 @@ public class DialogCharacter : MonoBehaviour
             yield return null;
             timer += Time.deltaTime;
             
-            dialogPanel.localScale = Mathf.Lerp(0, 1, timer) * Vector2.one;
+            dialogPanel.localScale = Mathf.Lerp(1, 0, timer / animTimeSec) * Vector2.one;
         }
     }
     private IEnumerator SayPhraseIterator(string phrase)
